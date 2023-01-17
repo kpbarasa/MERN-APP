@@ -1,5 +1,7 @@
+const database = require('../database/');
 const { MainRepository } = require('../database/')
 const {FormateData} = require('../utils/');
+const {NotFoundError} = require('../utils/errors/app-errors');
 
 class mainService {
 
@@ -10,6 +12,8 @@ class mainService {
     async MainServiceFunction() {
 
         const response_data = await this.repository.RepositoryFunction()
+
+        if(response_data) throw new NotFoundError("Sorry no data found");
 
         const payload = {
             message:"success", 
@@ -23,7 +27,10 @@ class mainService {
 
     async GetData(api_data) {
 
-        const response_data = await this.repository.GetData(api_data)
+        const response_data = await this.repository.GetData(api_data);
+        console.log(response_data);
+
+        if(response_data.length === 0) throw new NotFoundError("Sorry no data found");
 
         const payload = {
             message:"success", 
@@ -31,13 +38,15 @@ class mainService {
             response_data, 
         };
 
-        return FormateData(payload)
+        const data = FormateData(payload)
+
+        return data;
 
     };
 
     async GetDataById(api_data) {
 
-        const response_data = await this.repository.RepositoryFunction(api_data)
+        const response_data = await this.repository.GetDataById(api_data)
 
         const payload = {
             message:"success", 
@@ -45,13 +54,15 @@ class mainService {
             response_data, 
         };
 
-        return FormateData(payload)
+        const data = FormateData(payload)
+
+        return data;
 
     };
 
     async PostData(api_data) {
 
-        const response_data = await this.repository.RepositoryFunction(api_data)
+        const response_data = await this.repository.PostData(api_data)
 
         const payload = {
             message:"success", 
@@ -59,13 +70,15 @@ class mainService {
             response_data, 
         };
 
-        return FormateData(payload)
+        const data = FormateData(payload)
+
+        return data;
 
     };
 
     async UpdateData(api_data) {
 
-        const response_data = await this.repository.RepositoryFunction(api_data)
+        const response_data = await this.repository.UpdateData(api_data)
 
         const payload = {
             message:"success", 
@@ -73,13 +86,15 @@ class mainService {
             response_data, 
         };
 
-        return FormateData(payload)
+        const data = FormateData(payload)
+
+        return data;
 
     };
 
     async DeleteData(api_data) {
 
-        const response_data = await this.repository.RepositoryFunction(api_data)
+        const response_data = await this.repository.DeleteData(api_data)
 
         const payload = {
             message:"success", 
@@ -87,7 +102,9 @@ class mainService {
             response_data, 
         };
 
-        return FormateData(payload)
+        const data = FormateData(payload)
+
+        return data;
 
     };
 };

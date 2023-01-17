@@ -1,4 +1,5 @@
 const { testDataModel } = require('../models')
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class MainRepository {
 
@@ -16,7 +17,11 @@ class MainRepository {
 
     async GetDataById(service_data) {
         const { _id } = service_data;
-        const data = await testDataModel.findById(_id)
+        console.log(_id);
+
+        if(!ObjectId.isValid(_id)) throw new Error("Invalid ID");
+
+        const data = await testDataModel.find({_id})
 
         return data
 
@@ -59,3 +64,5 @@ class MainRepository {
     }
 
 }
+
+module.exports = MainRepository;

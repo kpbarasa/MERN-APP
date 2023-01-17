@@ -42,7 +42,9 @@ module.exports = (app) => {
 
             const _id = req.params.id;
 
-            const data = await service.GetDataById({ _id });
+            const api_data = { _id };
+
+            const data = await service.GetDataById( api_data );
 
             res.json(data);
 
