@@ -105,7 +105,8 @@ class mainService {
         if(!response_data) throw new NotFoundError("Sorry no data found");
 
         const deleted_data = await this.repository.DeleteData(api_data);
-        console.log(deleted_data);
+
+        if(!deleted_data) throw new NotFoundError("Sorry Unable to delete data");
 
         const payload = {
             message:"Data successfully deleted", 
