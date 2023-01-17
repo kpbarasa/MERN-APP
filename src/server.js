@@ -1,16 +1,20 @@
 const express = require('express');
 const expressApp = require('./express-app')
 const {databaseConnection} = require('./database')
+const errorHandler = require('./utils/errors')
 
 const {PORT} = require('./config')
 
 const StartServer = async () => {
+    
+    await databaseConnection();
 
     const app = express();
 
     await expressApp(app);
-    
-    await databaseConnection();
+
+    // Catch all errors format and report to error logger
+    errorHandler(app)
 
     app.listen(PORT, () => {
        console.log('Server: is listening on Port '+PORT);
