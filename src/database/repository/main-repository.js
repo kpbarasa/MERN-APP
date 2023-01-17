@@ -58,6 +58,4 @@ class MainRepository {
         return data
     }
 
-};
-
-module.exports = MainRepository;
+}
