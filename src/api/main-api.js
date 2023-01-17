@@ -97,7 +97,7 @@ module.exports = (app) => {
 
     });
 
-    app.get('/del/data', async (req, res, next) => {
+    app.delete('/del/data/:id', async (req, res, next) => {
 
         try {
 

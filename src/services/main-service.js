@@ -28,12 +28,11 @@ class mainService {
     async GetData(api_data) {
 
         const response_data = await this.repository.GetData(api_data);
-        console.log(response_data);
 
         if(response_data.length === 0) throw new NotFoundError("Sorry no data found");
 
         const payload = {
-            message:"success", 
+            message:"Data successfully found", 
             status:"404" ,
             response_data, 
         };
@@ -48,8 +47,10 @@ class mainService {
 
         const response_data = await this.repository.GetDataById(api_data)
 
+        if(!response_data) throw new NotFoundError("Sorry no data found");
+
         const payload = {
-            message:"success", 
+            message:"Data successfully found", 
             status:"404" ,
             response_data, 
         };
@@ -63,9 +64,12 @@ class mainService {
     async PostData(api_data) {
 
         const response_data = await this.repository.PostData(api_data)
+        console.log(response_data);
+
+        if(!response_data) throw new NotFoundError("Sorry unable to post data");
 
         const payload = {
-            message:"success", 
+            message:"Data successfully posted", 
             status:"404" ,
             response_data, 
         };
@@ -80,8 +84,10 @@ class mainService {
 
         const response_data = await this.repository.UpdateData(api_data)
 
+        if(!response_data) throw new NotFoundError("Sorry unable to update data");
+
         const payload = {
-            message:"success", 
+            message:"Data successfully updated", 
             status:"404" ,
             response_data, 
         };
@@ -94,10 +100,15 @@ class mainService {
 
     async DeleteData(api_data) {
 
-        const response_data = await this.repository.DeleteData(api_data)
+        const response_data = await this.repository.GetDataById(api_data);
+
+        if(!response_data) throw new NotFoundError("Sorry no data found");
+
+        const deleted_data = await this.repository.DeleteData(api_data);
+        console.log(deleted_data);
 
         const payload = {
-            message:"success", 
+            message:"Data successfully deleted", 
             status:"404" ,
             response_data, 
         };

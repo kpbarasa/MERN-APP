@@ -1,5 +1,6 @@
 const { testDataModel } = require('../models')
 const ObjectId = require('mongoose').Types.ObjectId;
+const {MongooseError} = require('../../utils/errors/app-errors');
 
 class MainRepository {
 
@@ -16,10 +17,10 @@ class MainRepository {
     }
 
     async GetDataById(service_data) {
-        const { _id } = service_data;
-        console.log(_id);
 
-        if(!ObjectId.isValid(_id)) throw new Error("Invalid ID");
+        const { _id } = service_data;
+
+        if(!ObjectId.isValid(_id)) throw new MongooseError("Invalid  Object ID");
 
         const data = await testDataModel.find({_id})
 
@@ -29,11 +30,11 @@ class MainRepository {
 
     async PostData(service_data) {
 
-        const { _id, req_body } = service_data;
+        const { req_body } = service_data;
 
-        const payload = { req_body }
+        const payload =  req_body 
 
-        const data = await testDataModel.create(payload)
+        const data = await testDataModel.create(payload )
 
         return data
     }
@@ -42,7 +43,9 @@ class MainRepository {
 
         const { _id, req_body } = service_data;
 
-        const payload = { req_body }
+        if(!ObjectId.isValid(_id)) throw new MongooseError("Invalid  Object ID");
+
+        const payload =  req_body 
 
         const data = await testDataModel.findByIdAndUpdate({ _id }, payload,
             
@@ -57,6 +60,8 @@ class MainRepository {
     async DeleteData(service_data) { 
 
         const { _id } = service_data;
+
+        if(!ObjectId.isValid(_id)) throw new MongooseError("Invalid  Object ID");
 
         const data = await testDataModel.findByIdAndDelete({ _id })
 
